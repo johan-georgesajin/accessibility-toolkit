@@ -5,6 +5,6 @@ An open-source accessibility toolkit for web developers.
 ## Team Members
 
 - Arjun VM
-- Albin Eldhose
-- Delna Maria Saji
+- Albin Eldose
+- Delna Mariya Saji
 - Johan George Sajin
