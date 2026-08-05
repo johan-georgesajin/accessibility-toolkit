@@ -9,6 +9,8 @@ import {
 } from './types';
 
 export const ACCESSIBILITY_STORAGE_KEY = 'a11y-toolkit:prefs';
+const SAVED_PREFERENCES_SUFFIX = ':saved';
+const PROFILES_SUFFIX = ':profiles';
 
 export interface AccessibilityContextValue {
   preferences: AccessibilityPreferences;
@@ -16,6 +18,10 @@ export interface AccessibilityContextValue {
   updatePreferences: (patch: PreferencePatch) => void;
   savePreferences: () => void;
   loadPreferences: () => void;
+  savedProfiles: readonly string[];
+  saveProfile: (name: string) => void;
+  loadProfile: (name: string) => void;
+  deleteProfile: (name: string) => void;
   resetPreferences: () => void;
   plugins: readonly AccessibilityPlugin[];
   registerPlugin: (plugin: AccessibilityPlugin) => () => void;
@@ -47,6 +53,18 @@ function mergePreferences(
   };
 }
 
+function readProfiles(storage: AccessibilityStorage | null, storageKey: string) {
+  if (!storage) return {} as Record<string, AccessibilityPreferences>;
+  try {
+    return (JSON.parse(storage.getItem(`${storageKey}${PROFILES_SUFFIX}`) ?? '{}') ?? {}) as Record<
+      string,
+      AccessibilityPreferences
+    >;
+  } catch {
+    return {} as Record<string, AccessibilityPreferences>;
+  }
+}
+
 export function AccessibilityProvider({
   children,
   defaultPreferences,
@@ -70,6 +88,9 @@ export function AccessibilityProvider({
     }
   });
   const [plugins, setPlugins] = useState<readonly AccessibilityPlugin[]>([]);
+  const [savedProfiles, setSavedProfiles] = useState<readonly string[]>(() =>
+    Object.keys(readProfiles(storage, storageKey)).sort(),
+  );
 
   useEffect(() => {
     if (!storage) return;
@@ -86,19 +107,51 @@ export function AccessibilityProvider({
 
   const savePreferences = useCallback(() => {
     if (!storage) return;
-    storage.setItem(storageKey, JSON.stringify(preferences));
+    storage.setItem(`${storageKey}${SAVED_PREFERENCES_SUFFIX}`, JSON.stringify(preferences));
   }, [preferences, storage, storageKey]);
 
   const loadPreferences = useCallback(() => {
     if (!storage) return;
 
     try {
-      const saved = storage.getItem(storageKey);
+      const saved =
+        storage.getItem(`${storageKey}${SAVED_PREFERENCES_SUFFIX}`) ?? storage.getItem(storageKey);
       if (saved) setPreferencesState(mergePreferences(defaults, JSON.parse(saved)));
     } catch {
       // Invalid or unavailable storage must never prevent the host application from rendering.
     }
   }, [defaults, storage, storageKey]);
+
+  const saveProfile = useCallback(
+    (name: string) => {
+      const profileName = name.trim();
+      if (!storage || !profileName) return;
+      const profiles = readProfiles(storage, storageKey);
+      profiles[profileName] = preferences;
+      storage.setItem(`${storageKey}${PROFILES_SUFFIX}`, JSON.stringify(profiles));
+      setSavedProfiles(Object.keys(profiles).sort());
+    },
+    [preferences, storage, storageKey],
+  );
+
+  const loadProfile = useCallback(
+    (name: string) => {
+      const profile = readProfiles(storage, storageKey)[name];
+      if (profile) setPreferencesState(mergePreferences(defaults, profile));
+    },
+    [defaults, storage, storageKey],
+  );
+
+  const deleteProfile = useCallback(
+    (name: string) => {
+      if (!storage) return;
+      const profiles = readProfiles(storage, storageKey);
+      delete profiles[name];
+      storage.setItem(`${storageKey}${PROFILES_SUFFIX}`, JSON.stringify(profiles));
+      setSavedProfiles(Object.keys(profiles).sort());
+    },
+    [storage, storageKey],
+  );
 
   const resetPreferences = useCallback(() => {
     setPreferencesState(defaults);
@@ -122,19 +175,27 @@ export function AccessibilityProvider({
       updatePreferences,
       savePreferences,
       loadPreferences,
+      savedProfiles,
+      saveProfile,
+      loadProfile,
+      deleteProfile,
       resetPreferences,
       plugins,
       registerPlugin,
     }),
     [
       loadPreferences,
+      loadProfile,
       plugins,
       preferences,
       registerPlugin,
       resetPreferences,
       savePreferences,
+      saveProfile,
+      savedProfiles,
       setPreferences,
       updatePreferences,
+      deleteProfile,
     ],
   );
 

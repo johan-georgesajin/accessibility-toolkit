@@ -1,11 +1,13 @@
 :root {
-  color: #172033;
-  background: #f5f7fb;
-  font-family: Inter, system-ui, sans-serif;
+  color: var(--a11y-color-fg, #172033);
+  background: var(--a11y-color-bg, #f5f7fb);
+  font-family: var(--a11y-font-family, Inter, system-ui, sans-serif);
 }
 
 body {
   margin: 0;
+  color: var(--a11y-color-fg, #172033);
+  background: var(--a11y-color-bg, #f5f7fb);
 }
 
 main {
@@ -13,13 +15,14 @@ main {
   margin: 4rem auto;
   padding: 2rem;
   border-radius: 1rem;
-  background: white;
-  box-shadow: 0 12px 40px rgb(20 38 70 / 12%);
+  border: 1px solid color-mix(in srgb, var(--a11y-color-fg, #172033) 22%, transparent);
+  background: var(--a11y-color-bg, white);
+  box-shadow: 0 12px 40px rgb(20 38 70 / 18%);
 }
 
 .eyebrow {
   margin: 0;
-  color: #2563eb;
+  color: var(--a11y-accent-color, #2563eb);
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -40,7 +43,12 @@ dl div {
   justify-content: space-between;
   padding: 0.75rem;
   border-radius: 0.5rem;
-  background: #eff6ff;
+  border: 1px solid color-mix(in srgb, var(--a11y-color-fg, #172033) 18%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--a11y-accent-color, #2563eb) 12%,
+    var(--a11y-color-bg, white)
+  );
 }
 
 dt {

@@ -46,9 +46,9 @@ interface AccessibilityPreferences {
 Storage key: `a11y-toolkit:prefs`.
 
 Tracks must use `useAccessibility().setPreferences()` or `updatePreferences()`; they must not read or
-write browser storage themselves. `savePreferences()` and `loadPreferences()` are the explicit persistence
-actions; preferences also save automatically after an update. The provider accepts a `storage` adapter for
-SSR or custom persistence.
+write browser storage themselves. `savePreferences()` writes an explicit saved snapshot and `loadPreferences()`
+restores it; working preferences also save automatically after an update. The provider accepts a `storage`
+adapter for SSR or custom persistence.
 
 ## CSS custom properties
 
