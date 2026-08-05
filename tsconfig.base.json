@@ -7,7 +7,8 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@a11y-toolkit/core": ["packages/core/src"]
+      "@a11y-toolkit/core": ["packages/core/src"],
+      "@a11y-toolkit/visual": ["packages/visual/src"]
     },
     "strict": true,
     "esModuleInterop": true,

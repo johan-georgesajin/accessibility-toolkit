@@ -46,7 +46,9 @@ interface AccessibilityPreferences {
 Storage key: `a11y-toolkit:prefs`.
 
 Tracks must use `useAccessibility().setPreferences()` or `updatePreferences()`; they must not read or
-write browser storage themselves. The provider accepts a `storage` adapter for SSR or custom persistence.
+write browser storage themselves. `savePreferences()` and `loadPreferences()` are the explicit persistence
+actions; preferences also save automatically after an update. The provider accepts a `storage` adapter for
+SSR or custom persistence.
 
 ## CSS custom properties
 
@@ -64,6 +66,7 @@ lowercase kebab case. Track 1 owns this token list; other tracks consume tokens 
 | `--a11y-zoom`                         | Page zoom scale                         |
 | `--a11y-cursor-size`                  | Cursor size                             |
 | `--a11y-control-min-size`             | Minimum interactive control size        |
+| `--a11y-accent-color`                 | Active theme accent color               |
 
 ## Plugin registration
 

@@ -1,15 +1,17 @@
 import { useAccessibility } from '@a11y-toolkit/core';
+import { AccessibilityPanel } from '@a11y-toolkit/visual';
 
 export function App() {
   const { preferences } = useAccessibility();
 
   return (
     <main>
-      <p className="eyebrow">Week 0 integration fixture</p>
+      <AccessibilityPanel />
+      <p className="eyebrow">Track 1 demo</p>
       <h1>A11y Toolkit</h1>
       <p>
-        The shared <code>AccessibilityProvider</code> is running. Track 1 controls will be rendered
-        here once implemented.
+        Open the floating accessibility button to adjust this page. Every control updates the shared
+        provider, changes documented CSS variables, and saves automatically.
       </p>
       <dl>
         <div>
@@ -19,6 +21,10 @@ export function App() {
         <div>
           <dt>Visual font size</dt>
           <dd>{preferences.visual.fontSize}px</dd>
+        </div>
+        <div>
+          <dt>Theme</dt>
+          <dd>{preferences.visual.theme}</dd>
         </div>
       </dl>
     </main>

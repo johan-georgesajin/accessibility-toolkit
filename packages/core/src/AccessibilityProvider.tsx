@@ -14,6 +14,8 @@ export interface AccessibilityContextValue {
   preferences: AccessibilityPreferences;
   setPreferences: (preferences: AccessibilityPreferences) => void;
   updatePreferences: (patch: PreferencePatch) => void;
+  savePreferences: () => void;
+  loadPreferences: () => void;
   resetPreferences: () => void;
   plugins: readonly AccessibilityPlugin[];
   registerPlugin: (plugin: AccessibilityPlugin) => () => void;
@@ -82,6 +84,22 @@ export function AccessibilityProvider({
     setPreferencesState((current) => mergePreferences(current, patch));
   }, []);
 
+  const savePreferences = useCallback(() => {
+    if (!storage) return;
+    storage.setItem(storageKey, JSON.stringify(preferences));
+  }, [preferences, storage, storageKey]);
+
+  const loadPreferences = useCallback(() => {
+    if (!storage) return;
+
+    try {
+      const saved = storage.getItem(storageKey);
+      if (saved) setPreferencesState(mergePreferences(defaults, JSON.parse(saved)));
+    } catch {
+      // Invalid or unavailable storage must never prevent the host application from rendering.
+    }
+  }, [defaults, storage, storageKey]);
+
   const resetPreferences = useCallback(() => {
     setPreferencesState(defaults);
   }, [defaults]);
@@ -102,11 +120,22 @@ export function AccessibilityProvider({
       preferences,
       setPreferences,
       updatePreferences,
+      savePreferences,
+      loadPreferences,
       resetPreferences,
       plugins,
       registerPlugin,
     }),
-    [plugins, preferences, registerPlugin, resetPreferences, setPreferences, updatePreferences],
+    [
+      loadPreferences,
+      plugins,
+      preferences,
+      registerPlugin,
+      resetPreferences,
+      savePreferences,
+      setPreferences,
+      updatePreferences,
+    ],
   );
 
   return <AccessibilityContext.Provider value={value}>{children}</AccessibilityContext.Provider>;

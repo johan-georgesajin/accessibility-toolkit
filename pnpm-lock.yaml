@@ -93,6 +93,13 @@ importers:
       react:
         specifier: '>=18.0.0'
         version: 19.2.8
+    devDependencies:
+      '@types/react':
+        specifier: ^19.1.10
+        version: 19.2.18
+      react:
+        specifier: ^19.1.1
+        version: 19.2.8
 
 packages:
 
