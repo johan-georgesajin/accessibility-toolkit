@@ -1,22 +1,46 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useAccessibility } from '@a11y-toolkit/core';
-import type { AccessibilityMode } from '@a11y-toolkit/core';
+import type { AccessibilityMode, AccessibilityPreferences } from '@a11y-toolkit/core';
 import { composeMode } from './presets';
 
 export function useAccessibilityModes() {
   const { preferences, updatePreferences, registerPlugin } = useAccessibility();
+  const originalPreferences = useRef<AccessibilityPreferences | null>(null);
 
   useEffect(
     () => registerPlugin({ id: 'modes.composer', title: 'Accessibility modes', track: 'modes' }),
     [registerPlugin],
   );
 
+  // A manual reset clears the active mode, so the next activation starts fresh.
+  useEffect(() => {
+    if (preferences.activeMode === null) originalPreferences.current = null;
+  }, [preferences.activeMode]);
+
   const activateMode = useCallback(
-    (mode: AccessibilityMode) => updatePreferences(composeMode(mode, preferences)),
+    (mode: AccessibilityMode) => {
+      const baseline = originalPreferences.current ?? preferences;
+      originalPreferences.current = baseline;
+      updatePreferences(composeMode(mode, baseline));
+    },
     [preferences, updatePreferences],
   );
   const deactivateMode = useCallback(
-    () => updatePreferences({ activeMode: null }),
+    () => {
+      const baseline = originalPreferences.current;
+      originalPreferences.current = null;
+      if (!baseline) {
+        updatePreferences({ activeMode: null });
+        return;
+      }
+      updatePreferences({
+        visual: baseline.visual,
+        reading: baseline.reading,
+        interaction: baseline.interaction,
+        activeMode: null,
+        custom: baseline.custom,
+      });
+    },
     [updatePreferences],
   );
 
