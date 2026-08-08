@@ -4,13 +4,11 @@ import { useAccessibility } from '@a11y-toolkit/core';
 export interface ReadingSessionProps {
   /** Element whose scroll position represents reading progress. */
   contentSelector?: string;
-  autoScrollSpeed?: number;
 }
 
 /** Displays reading time and progress and optionally advances the reading area. */
 export function ReadingSession({
   contentSelector = 'main',
-  autoScrollSpeed = 18,
 }: ReadingSessionProps) {
   const { preferences } = useAccessibility();
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
@@ -40,15 +38,6 @@ export function ReadingSession({
       window.clearInterval(timer);
     };
   }, [active, contentSelector]);
-
-  useEffect(() => {
-    if (!reading.autoScroll) return;
-    const interval = window.setInterval(() => {
-      const remaining = document.documentElement.scrollHeight - window.innerHeight - window.scrollY;
-      if (remaining > 0) window.scrollBy({ top: Math.min(autoScrollSpeed, remaining), behavior: 'smooth' });
-    }, 900);
-    return () => window.clearInterval(interval);
-  }, [autoScrollSpeed, reading.autoScroll]);
 
   if (!active) return null;
   const minutes = Math.floor(elapsedSeconds / 60);

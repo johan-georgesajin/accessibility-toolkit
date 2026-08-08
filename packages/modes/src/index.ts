@@ -7,4 +7,5 @@ export { OcrImageReader, type OcrImageReaderProps } from './OcrImageReader';
 export { createImageOcr, type OcrRecognizer } from './ocr';
 export { composeMode, type ModePreferencePatch } from './presets';
 export { ReadingSession, type ReadingSessionProps } from './ReadingSession';
+export { ReadAloudControl, type ReadAloudControlProps } from './ReadAloudControl';
 export { useAccessibilityModes } from './useAccessibilityModes';

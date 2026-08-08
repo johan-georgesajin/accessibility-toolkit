@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAccessibility } from '@a11y-toolkit/core';
 import type { ReadableFont, VisualPreferences } from '@a11y-toolkit/core';
-import { useAccessibilityModes } from '@a11y-toolkit/modes';
+import { OcrImageReader, ReadAloudControl, ReadingSession, useAccessibilityModes } from '@a11y-toolkit/modes';
 import { AccessibilityMagnifier } from './AccessibilityMagnifier';
 import {
   AccessibilityVisualEffects,
@@ -300,6 +300,13 @@ export function AccessibilityPanel({
                 {reading.autoScroll ? 'On' : 'Off'}
               </button>
             </Card>
+            <Card icon="R" title="Read Aloud">
+              <ReadAloudControl />
+            </Card>
+          </div>
+          <div className="a11y-panel-reading-tools">
+            <ReadingSession />
+            <OcrImageReader />
           </div>
           <footer className="a11y-profiles">
             <p aria-live="polite">{status}</p>

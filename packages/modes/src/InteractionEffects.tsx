@@ -29,5 +29,14 @@ export function InteractionEffects({ contentSelector = 'main' }: InteractionEffe
     };
   }, [contentSelector, preferences.interaction.distractionFree]);
 
+  useEffect(() => {
+    if (!preferences.reading.autoScroll || typeof window === 'undefined') return;
+    const interval = window.setInterval(() => {
+      const remaining = document.documentElement.scrollHeight - window.innerHeight - window.scrollY;
+      if (remaining > 0) window.scrollBy({ top: Math.min(18, remaining), behavior: 'smooth' });
+    }, 900);
+    return () => window.clearInterval(interval);
+  }, [preferences.reading.autoScroll]);
+
   return null;
 }

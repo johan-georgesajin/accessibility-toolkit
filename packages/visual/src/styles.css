@@ -487,6 +487,9 @@
   border-top: 1px solid #eef0f3;
   background: #fcfcfd;
 }
+.a11y-panel-reading-tools {
+  padding: 0 0.8rem 0.65rem;
+}
 .a11y-profiles p {
   margin: 0;
   color: #667085;

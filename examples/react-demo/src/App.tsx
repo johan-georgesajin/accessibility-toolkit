@@ -1,27 +1,6 @@
 import { useAccessibility } from '@a11y-toolkit/core';
 import { AccessibilityPanel } from '@a11y-toolkit/visual';
-import {
-  InteractionEffects,
-  AccessibleReadingText,
-  OcrImageReader,
-  ReadingSession,
-  SkipLink,
-  useAccessibilityModes,
-} from '@a11y-toolkit/modes';
-
-function ModeControls() {
-  const { activeMode, activateMode, deactivateMode } = useAccessibilityModes();
-  return (
-    <section aria-label="Accessibility modes">
-      <h2>Reading modes</h2>
-      <p>Active mode: {activeMode ?? 'None'}</p>
-      <button type="button" onClick={() => activateMode('dyslexia')}>Dyslexia mode</button>
-      <button type="button" onClick={() => activateMode('adhd')}>ADHD mode</button>
-      <button type="button" onClick={() => activateMode('lowVision')}>Low vision mode</button>
-      <button type="button" onClick={deactivateMode}>Turn mode off</button>
-    </section>
-  );
-}
+import { InteractionEffects, SkipLink } from '@a11y-toolkit/modes';
 
 export function App() {
   const { preferences } = useAccessibility();
@@ -34,11 +13,6 @@ export function App() {
       <main id="main-content" tabIndex={-1}>
         <p className="eyebrow">Track 1 demo</p>
         <h1>A11y Toolkit</h1>
-        {preferences.activeMode === 'adhd' && (
-          <p className="focus-mode-status" role="status">
-            Focus mode active - surrounding content is reduced to help you read.
-          </p>
-        )}
         <p>
           Open the floating accessibility button to adjust this page. Every control updates the shared
           provider, changes documented CSS variables, and saves automatically.
@@ -57,10 +31,6 @@ export function App() {
           <dd>{preferences.visual.theme}</dd>
         </div>
         </dl>
-        <ModeControls />
-        <AccessibleReadingText text="Reading with the right support can make complex information easier to understand and follow." />
-        <ReadingSession contentSelector="#main-content" />
-        <OcrImageReader />
       </main>
       <aside className="demo-distraction" aria-label="Supplementary content">
         <strong>Supplementary content</strong>
