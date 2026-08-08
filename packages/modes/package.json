@@ -27,6 +27,9 @@
     "@types/react": "^19.1.10",
     "react": "^19.1.1"
   },
+  "dependencies": {
+    "tesseract.js": "^6.0.1"
+  },
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit"

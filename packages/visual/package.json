@@ -21,6 +21,7 @@
   ],
   "peerDependencies": {
     "@a11y-toolkit/core": "workspace:*",
+    "@a11y-toolkit/modes": "workspace:*",
     "react": ">=18.0.0"
   },
   "devDependencies": {

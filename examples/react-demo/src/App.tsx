@@ -1,6 +1,13 @@
 import { useAccessibility } from '@a11y-toolkit/core';
 import { AccessibilityPanel } from '@a11y-toolkit/visual';
-import { InteractionEffects, SkipLink, useAccessibilityModes } from '@a11y-toolkit/modes';
+import {
+  InteractionEffects,
+  AccessibleReadingText,
+  OcrImageReader,
+  ReadingSession,
+  SkipLink,
+  useAccessibilityModes,
+} from '@a11y-toolkit/modes';
 
 function ModeControls() {
   const { activeMode, activateMode, deactivateMode } = useAccessibilityModes();
@@ -27,6 +34,11 @@ export function App() {
       <main id="main-content" tabIndex={-1}>
         <p className="eyebrow">Track 1 demo</p>
         <h1>A11y Toolkit</h1>
+        {preferences.activeMode === 'adhd' && (
+          <p className="focus-mode-status" role="status">
+            Focus mode active - surrounding content is reduced to help you read.
+          </p>
+        )}
         <p>
           Open the floating accessibility button to adjust this page. Every control updates the shared
           provider, changes documented CSS variables, and saves automatically.
@@ -46,6 +58,9 @@ export function App() {
         </div>
         </dl>
         <ModeControls />
+        <AccessibleReadingText text="Reading with the right support can make complex information easier to understand and follow." />
+        <ReadingSession contentSelector="#main-content" />
+        <OcrImageReader />
       </main>
       <aside className="demo-distraction" aria-label="Supplementary content">
         <strong>Supplementary content</strong>

@@ -4,13 +4,8 @@ import type { AccessibilityMode, AccessibilityPreferences } from '@a11y-toolkit/
 import { composeMode } from './presets';
 
 export function useAccessibilityModes() {
-  const { preferences, updatePreferences, registerPlugin } = useAccessibility();
+  const { preferences, updatePreferences } = useAccessibility();
   const originalPreferences = useRef<AccessibilityPreferences | null>(null);
-
-  useEffect(
-    () => registerPlugin({ id: 'modes.composer', title: 'Accessibility modes', track: 'modes' }),
-    [registerPlugin],
-  );
 
   // A manual reset clears the active mode, so the next activation starts fresh.
   useEffect(() => {

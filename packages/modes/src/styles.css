@@ -18,13 +18,74 @@
 }
 
 [data-a11y-distraction-free='true'] [data-a11y-dimmed] {
-  opacity: 0.18;
+  opacity: 0.06;
+  filter: blur(2px) grayscale(1);
   pointer-events: none;
-  transition: opacity 160ms ease;
+  transition: opacity 180ms ease, filter 180ms ease;
+}
+
+[data-a11y-distraction-free='true'] body {
+  background: #111827 !important;
+  transition: background 180ms ease;
 }
 
 [data-a11y-distraction-free='true'] [data-a11y-focus-content] {
-  box-shadow: 0 0 0 4px rgb(37 99 235 / 28%), 0 20px 52px rgb(15 23 42 / 28%);
-  transform: scale(1.01);
-  transition: box-shadow 160ms ease, transform 160ms ease;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 0 5px rgb(96 165 250 / 60%), 0 30px 80px rgb(0 0 0 / 55%);
+  transform: scale(1.015);
+  transition: box-shadow 180ms ease, transform 180ms ease;
+}
+
+.a11y-reading-session,
+.a11y-ocr-reader {
+  display: grid;
+  gap: 0.55rem;
+  margin: 1rem 0;
+  padding: 0.8rem 1rem;
+  border: 1px solid #bfdbfe;
+  border-radius: 0.6rem;
+  color: #172554;
+  background: #eff6ff;
+  font: 600 0.9rem/1.35 system-ui, sans-serif;
+}
+
+.a11y-reading-session label {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.a11y-reading-session progress {
+  width: 100%;
+  accent-color: #2563eb;
+}
+
+.a11y-ocr-reader input,
+.a11y-ocr-reader textarea {
+  display: block;
+  width: 100%;
+  margin-top: 0.35rem;
+}
+
+.a11y-reading-text {
+  margin: 1rem 0;
+  padding: 0.9rem 1rem;
+  border-radius: 0.6rem;
+  background: #f8fafc;
+}
+
+.a11y-colored-overlay {
+  background: #fff3bf;
+  color: #3f2d00;
+}
+
+.a11y-current-word {
+  border-radius: 0.2rem;
+  background: #fbbf24;
+  box-shadow: 0 0 0 2px #fbbf24;
+}
+
+.a11y-ocr-reader textarea {
+  box-sizing: border-box;
+  resize: vertical;
 }

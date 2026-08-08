@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAccessibility } from '@a11y-toolkit/core';
 import type { ReadableFont, VisualPreferences } from '@a11y-toolkit/core';
+import { useAccessibilityModes } from '@a11y-toolkit/modes';
 import { AccessibilityMagnifier } from './AccessibilityMagnifier';
 import {
   AccessibilityVisualEffects,
@@ -48,6 +49,7 @@ export function AccessibilityPanel({
   const [profileName, setProfileName] = useState('');
   const [selectedProfile, setSelectedProfile] = useState('');
   const [status, setStatus] = useState('Preferences save automatically.');
+  const panelRef = useRef<HTMLElement>(null);
   const {
     preferences,
     updatePreferences,
@@ -58,7 +60,9 @@ export function AccessibilityPanel({
     deleteProfile,
     registerPlugin,
   } = useAccessibility();
+  const { activeMode, activateMode, deactivateMode } = useAccessibilityModes();
   const visual = preferences.visual;
+  const reading = preferences.reading;
   useEffect(
     () => registerPlugin({ id: 'visual.panel', title: 'Visual controls', track: 'visual' }),
     [registerPlugin],
@@ -69,6 +73,34 @@ export function AccessibilityPanel({
     setVisual({
       [key]: Math.min(max, Math.max(min, Number(visual[key]) + amount)),
     } as Partial<VisualPreferences>);
+
+  useEffect(() => {
+    if (!isOpen || !panelRef.current) return;
+    const panel = panelRef.current;
+    const focusable = () =>
+      Array.from(
+        panel.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Tab') return;
+      const elements = focusable();
+      if (!elements.length) return;
+      const first = elements[0];
+      const last = elements[elements.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    panel.addEventListener('keydown', onKeyDown);
+    panel.querySelector<HTMLElement>('button, input, select')?.focus();
+    return () => panel.removeEventListener('keydown', onKeyDown);
+  }, [isOpen]);
 
   return (
     <>
@@ -85,7 +117,7 @@ export function AccessibilityPanel({
         ◉ Accessibility
       </button>
       {isOpen && (
-        <aside data-a11y-toolkit-ui id="a11y-accessibility-panel" className="a11y-compact-panel" aria-label={label}>
+        <aside ref={panelRef} data-a11y-toolkit-ui id="a11y-accessibility-panel" className="a11y-compact-panel" aria-label={label}>
           <header>
             <span className="a11y-compact-logo" aria-hidden="true">
               ✦
@@ -239,6 +271,33 @@ export function AccessibilityPanel({
                 }}
               >
                 Reset
+              </button>
+            </Card>
+            <Card icon="M" title="Accessibility Mode">
+              <select
+                aria-label="Accessibility mode"
+                value={activeMode ?? ''}
+                onChange={(event) => {
+                  const mode = event.target.value;
+                  if (!mode) deactivateMode();
+                  else activateMode(mode as 'dyslexia' | 'adhd' | 'lowVision');
+                }}
+              >
+                <option value="">Custom</option>
+                <option value="dyslexia">Dyslexia</option>
+                <option value="adhd">ADHD Focus</option>
+                <option value="lowVision">Low Vision</option>
+              </select>
+            </Card>
+            <Card icon="S" title="Auto Scroll">
+              <button
+                className="a11y-compact-toggle"
+                aria-pressed={Boolean(reading.autoScroll)}
+                onClick={() =>
+                  updatePreferences({ reading: { ...reading, autoScroll: !reading.autoScroll } })
+                }
+              >
+                {reading.autoScroll ? 'On' : 'Off'}
               </button>
             </Card>
           </div>

@@ -1,8 +1,10 @@
 packages:
-  - 'packages/*'
-  - 'examples/*'
+  - packages/*
+  - examples/*
+
+allowBuilds:
+  esbuild: true
 
 onlyBuiltDependencies:
   - esbuild
-allowBuilds:
-  esbuild: true
+  - tesseract.js
