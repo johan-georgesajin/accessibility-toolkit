@@ -23,12 +23,24 @@ export interface VisualPreferences {
 export interface ReadingPreferences {
   ttsEnabled?: boolean;
   readingLevel?: 'default' | 'simplified';
+  syllableSplitting?: boolean;
+  bionicReading?: boolean;
+  coloredOverlay?: boolean;
+  autoScroll?: boolean;
+  showProgress?: boolean;
+  readingTimer?: boolean;
+}
+
+/** Interaction settings are owned by Track 3. */
+export interface InteractionPreferences {
+  distractionFree?: boolean;
 }
 
 export interface AccessibilityPreferences {
   version: 1;
   visual: VisualPreferences;
   reading: ReadingPreferences;
+  interaction: InteractionPreferences;
   activeMode: AccessibilityMode | null;
   custom: Record<string, unknown>;
 }
@@ -52,6 +64,7 @@ export const DEFAULT_ACCESSIBILITY_PREFERENCES: AccessibilityPreferences = {
   version: 1,
   visual: DEFAULT_VISUAL_PREFERENCES,
   reading: {},
+  interaction: {},
   activeMode: null,
   custom: {},
 };

@@ -75,6 +75,7 @@ export function AccessibilityPanel({
       <AccessibilityVisualEffects rootElement={rootElement} />
       {visual.magnifierEnabled && <AccessibilityMagnifier />}
       <button
+        data-a11y-toolkit-ui
         className="a11y-launcher"
         type="button"
         aria-expanded={isOpen}
@@ -84,7 +85,7 @@ export function AccessibilityPanel({
         ◉ Accessibility
       </button>
       {isOpen && (
-        <aside id="a11y-accessibility-panel" className="a11y-compact-panel" aria-label={label}>
+        <aside data-a11y-toolkit-ui id="a11y-accessibility-panel" className="a11y-compact-panel" aria-label={label}>
           <header>
             <span className="a11y-compact-logo" aria-hidden="true">
               ✦

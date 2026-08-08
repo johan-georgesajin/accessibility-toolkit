@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@a11y-toolkit/core": "workspace:*",
+    "@a11y-toolkit/modes": "workspace:*",
     "@a11y-toolkit/visual": "workspace:*",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"

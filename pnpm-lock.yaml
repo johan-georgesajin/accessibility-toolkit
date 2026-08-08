@@ -50,6 +50,9 @@ importers:
       '@a11y-toolkit/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@a11y-toolkit/modes':
+        specifier: workspace:*
+        version: link:../../packages/modes
       '@a11y-toolkit/visual':
         specifier: workspace:*
         version: link:../../packages/visual
@@ -81,7 +84,18 @@ importers:
 
   packages/devtools: {}
 
-  packages/modes: {}
+  packages/modes:
+    dependencies:
+      '@a11y-toolkit/core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      '@types/react':
+        specifier: ^19.1.10
+        version: 19.2.18
+      react:
+        specifier: ^19.1.1
+        version: 19.2.8
 
   packages/reading: {}
 

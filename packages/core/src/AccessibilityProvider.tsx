@@ -49,6 +49,7 @@ function mergePreferences(
     version: 1,
     visual: { ...defaults.visual, ...patch?.visual },
     reading: { ...defaults.reading, ...patch?.reading },
+    interaction: { ...defaults.interaction, ...patch?.interaction },
     custom: { ...defaults.custom, ...patch?.custom },
   };
 }

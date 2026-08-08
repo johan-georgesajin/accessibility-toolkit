@@ -38,6 +38,7 @@ interface AccessibilityPreferences {
   version: 1;
   visual: VisualPreferences;
   reading: ReadingPreferences;
+  interaction: InteractionPreferences;
   activeMode: AccessibilityMode | null;
   custom: Record<string, unknown>;
 }
@@ -49,6 +50,10 @@ Tracks must use `useAccessibility().setPreferences()` or `updatePreferences()`; 
 write browser storage themselves. `savePreferences()` writes an explicit saved snapshot and `loadPreferences()`
 restores it; working preferences also save automatically after an update. The provider accepts a `storage`
 adapter for SSR or custom persistence.
+
+Track 3 composes existing visual settings with these optional shared flags: `reading.syllableSplitting`,
+`reading.bionicReading`, `reading.coloredOverlay`, `reading.autoScroll`, `reading.showProgress`,
+`reading.readingTimer`, and `interaction.distractionFree`.
 
 ## CSS custom properties
 

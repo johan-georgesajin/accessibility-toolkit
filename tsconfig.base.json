@@ -8,7 +8,8 @@
     "baseUrl": ".",
     "paths": {
       "@a11y-toolkit/core": ["packages/core/src"],
-      "@a11y-toolkit/visual": ["packages/visual/src"]
+      "@a11y-toolkit/visual": ["packages/visual/src"],
+      "@a11y-toolkit/modes": ["packages/modes/src"]
     },
     "strict": true,
     "esModuleInterop": true,

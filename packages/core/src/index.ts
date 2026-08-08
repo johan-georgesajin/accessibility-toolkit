@@ -13,6 +13,7 @@ export {
   type AccessibilityPreferences,
   type AccessibilityStorage,
   type ContrastMode,
+  type InteractionPreferences,
   type PreferencePatch,
   type ReadableFont,
   type ReadingPreferences,
