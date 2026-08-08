@@ -47,6 +47,10 @@ export function App() {
         </dl>
         <ModeControls />
       </main>
+      <aside className="demo-distraction" aria-label="Supplementary content">
+        <strong>Supplementary content</strong>
+        <p>This card is intentionally dimmed by ADHD mode so the reading area stays in focus.</p>
+      </aside>
     </>
   );
 }

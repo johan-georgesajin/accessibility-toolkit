@@ -7,7 +7,7 @@ const FOCUSABLE =
 /** A visible-on-focus link that lets keyboard users bypass repeated navigation. */
 export function SkipLink({ targetId, children = 'Skip to main content' }: { targetId: string } & PropsWithChildren) {
   return (
-    <a className="a11y-skip-link" href={`#${targetId}`}>
+    <a data-a11y-toolkit-ui className="a11y-skip-link" href={`#${targetId}`}>
       {children}
     </a>
   );

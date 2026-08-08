@@ -16,6 +16,7 @@ export function InteractionEffects({ contentSelector = 'main' }: InteractionEffe
     const content = document.querySelector<HTMLElement>(contentSelector);
     const enabled = Boolean(preferences.interaction.distractionFree);
     root.dataset.a11yDistractionFree = String(enabled);
+    content?.toggleAttribute('data-a11y-focus-content', enabled);
     const siblings = content ? Array.from(content.parentElement?.children ?? []) : [];
     siblings.forEach((element) => {
       if (element === content || element.hasAttribute('data-a11y-toolkit-ui')) return;
@@ -23,6 +24,7 @@ export function InteractionEffects({ contentSelector = 'main' }: InteractionEffe
     });
     return () => {
       delete root.dataset.a11yDistractionFree;
+      content?.removeAttribute('data-a11y-focus-content');
       siblings.forEach((element) => element.removeAttribute('data-a11y-dimmed'));
     };
   }, [contentSelector, preferences.interaction.distractionFree]);

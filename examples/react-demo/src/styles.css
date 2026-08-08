@@ -58,3 +58,16 @@ dt {
 dd {
   margin: 0;
 }
+
+.demo-distraction {
+  width: min(42rem, calc(100% - 2rem));
+  margin: -2.5rem auto 4rem;
+  padding: 1rem 1.25rem;
+  border-radius: 0.75rem;
+  color: #344054;
+  background: #e8eef8;
+}
+
+.demo-distraction p {
+  margin: 0.45rem 0 0;
+}

@@ -22,3 +22,9 @@
   pointer-events: none;
   transition: opacity 160ms ease;
 }
+
+[data-a11y-distraction-free='true'] [data-a11y-focus-content] {
+  box-shadow: 0 0 0 4px rgb(37 99 235 / 28%), 0 20px 52px rgb(15 23 42 / 28%);
+  transform: scale(1.01);
+  transition: box-shadow 160ms ease, transform 160ms ease;
+}
