@@ -1,2 +1,2 @@
-// Track 4 exports will be added here after Week 0.
-export {};
+export { scanAccessibility } from './scanner';
+export type { AccessibilityIssue, Severity } from './types';
